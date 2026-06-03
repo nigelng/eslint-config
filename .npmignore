@@ -1,8 +1,11 @@
-*-prettier-config*.tgz
+*-eslint-config-base*.tgz
 .babelrc
 .editorconfig
 .envrc
 .eslintrc.json
+.eslintignore
 .prettierrc.json
 .yarnrc.yml
-shell.nix
+eslint.config.js
+flake.nix
+flake.lock

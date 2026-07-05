@@ -1,8 +1,22 @@
+# Dependencies
 node_modules/
-.yarn/cache
-.yarn/install-state.gz
-.direnv
+
+# Yarn
+.yarn/*
+!.yarn/releases
+
+# Environment
 .env
 .env.*
 !.env.example
+
+# Build artifacts
+dist/
+*.tgz
 *.log
+*.js.map
+
+# IDE
+.idea/
+.devin/plans
+.devin/brainstorms

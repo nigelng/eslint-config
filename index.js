@@ -1,41 +1,24 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-import babelParser from '@babel/eslint-parser'
-import { FlatCompat } from '@eslint/eslintrc'
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import js from '@eslint/js'
+import eslintConfigPrettier from 'eslint-config-prettier/flat'
+import { importX } from 'eslint-plugin-import-x'
 import globals from 'globals'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  resolvePluginsRelativeTo: __dirname,
-})
-
 export default [
-  ...compat.extends('airbnb-base', 'plugin:import/errors'),
-  eslintPluginPrettierRecommended,
+  js.configs.recommended,
+  importX.flatConfigs.recommended,
   {
     languageOptions: {
-      parser: babelParser,
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        requireConfigFile: false,
-        babelOptions: {
-          babelrc: false,
-          configFile: false,
-          presets: ['@babel/preset-env'],
-        },
-      },
+      ecmaVersion: 2024,
+      sourceType: 'module',
       globals: {
-        ...globals.es2021,
-        ...globals.jest,
+        ...globals.es2024,
+        ...globals.node,
       },
     },
     rules: {
-      complexity: ['error', { max: 5 }],
-      'import/order': [
+      complexity: ['error', { max: 7 }],
+
+      'import-x/order': [
         'error',
         {
           alphabetize: {
@@ -45,10 +28,8 @@ export default [
           'newlines-between': 'always',
         },
       ],
-      'import/prefer-default-export': 'off',
+
       camelcase: ['error', { allow: ['^UNSAFE_'] }],
-      'class-methods-use-this': 'off',
-      'func-names': 'off',
       'lines-between-class-members': [
         'error',
         'always',
@@ -68,15 +49,15 @@ export default [
         },
       ],
       'no-use-before-define': ['error', 'nofunc'],
-      'no-underscore-dangle': 'off',
-      strict: 'off',
-    },
-    settings: {
-      'import/resolver': {
-        node: {
-          paths: ['node_modules', './src'],
-        },
-      },
+
+      eqeqeq: ['error', 'always'],
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'object-shorthand': 'error',
+      'no-duplicate-imports': 'error',
+      'prefer-rest-params': 'error',
+      'prefer-spread': 'error',
     },
   },
+  eslintConfigPrettier,
 ]

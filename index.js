@@ -30,11 +30,7 @@ export default [
       ],
 
       camelcase: ['error', { allow: ['^UNSAFE_'] }],
-      'lines-between-class-members': [
-        'error',
-        'always',
-        { exceptAfterSingleLine: true },
-      ],
+      'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
       'no-restricted-syntax': [
         'error',
         {

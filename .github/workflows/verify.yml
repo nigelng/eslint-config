@@ -1,15 +1,16 @@
-name: Publish Package
+name: Verify
+
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+  pull_request:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
-  publish-package:
+  verify:
     runs-on: ubuntu-latest
     env:
       NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -18,17 +19,9 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          registry-url: https://npm.pkg.github.com
-          scope: '@nigelng'
-
       - name: Install Deps
         run: yarn install --immutable
-
       - name: Lint
         run: yarn lint
-
       - name: Check Formatting
         run: yarn format:check
-
-      - name: Publish Pkg
-        run: yarn npm publish

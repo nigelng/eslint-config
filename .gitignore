@@ -18,5 +18,5 @@ dist/
 
 # IDE
 .idea/
-.devin/plans
-.devin/brainstorms
+.devin/plans/
+.devin/brainstorms/

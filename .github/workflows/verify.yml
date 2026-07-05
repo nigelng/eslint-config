@@ -8,19 +8,22 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   verify:
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+          registry-url: https://npm.pkg.github.com
+          scope: '@nigelng'
       - name: Install Deps
         run: yarn install --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
       - name: Lint
         run: yarn lint
       - name: Check Formatting

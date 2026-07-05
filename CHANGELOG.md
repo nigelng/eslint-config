@@ -2,7 +2,7 @@
 
 All notable changes to `@nigelng/eslint-config` are documented here.
 
-## [3.0.0] — unreleased
+## [3.0.0] — 2026-07-05
 
 ### Breaking
 

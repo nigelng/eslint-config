@@ -18,5 +18,6 @@ dist/
 
 # IDE
 .idea/
-.devin/plans/
-.devin/brainstorms/
+.devin/
+.vscode/
+.cursor/

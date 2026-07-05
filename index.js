@@ -1,36 +1,49 @@
 import js from '@eslint/js'
-import eslintConfigPrettier from 'eslint-config-prettier/flat'
-import { importX } from 'eslint-plugin-import-x'
+import { defineConfig } from 'eslint/config'
+import eslintConfigPrettier from 'eslint-config-prettier'
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
+import importPlugin, { createNodeResolver } from 'eslint-plugin-import-x'
+import promise from 'eslint-plugin-promise'
+import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
 
-export default [
-  js.configs.recommended,
-  importX.flatConfigs.recommended,
+export default defineConfig([
   {
+    extends: [js.configs.recommended],
+  },
+  {
+    plugins: {
+      'import-x': importPlugin,
+    },
     languageOptions: {
-      ecmaVersion: 2024,
+      ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
-        ...globals.es2024,
-        ...globals.node,
+        ...globals.es2025,
       },
     },
     rules: {
-      complexity: ['error', { max: 7 }],
+      // Best practices
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
+      'no-eval': 'error',
+      'no-new-func': 'error',
+      'no-loop-func': 'error',
+      'no-param-reassign': ['error', { props: false }],
+      'no-throw-literal': 'error',
+      'consistent-return': 'error',
+      'default-case': ['error', { commentPattern: '^no default$' }],
+      'no-constructor-return': 'error',
+      'no-self-compare': 'error',
+      complexity: ['error', { max: 10 }],
 
-      'import-x/order': [
-        'error',
-        {
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-          'newlines-between': 'always',
-        },
-      ],
+      // Variables
+      'no-shadow': 'error',
+      'no-use-before-define': ['error', 'nofunc'],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
 
+      // Style (non-Prettier)
       camelcase: ['error', { allow: ['^UNSAFE_'] }],
-      'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+      'class-methods-use-this': 'off',
       'no-restricted-syntax': [
         'error',
         {
@@ -44,16 +57,44 @@ export default [
             '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
         },
       ],
-      'no-use-before-define': ['error', 'nofunc'],
 
-      eqeqeq: ['error', 'always'],
-      'no-var': 'error',
+      // ES6+
       'prefer-const': 'error',
-      'object-shorthand': 'error',
-      'no-duplicate-imports': 'error',
-      'prefer-rest-params': 'error',
-      'prefer-spread': 'error',
+      'no-var': 'error',
+      'prefer-template': 'error',
+      'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
+      'object-shorthand': ['error', 'always'],
+      'prefer-destructuring': [
+        'error',
+        { array: false, object: true },
+        { enforceForRenamedProperties: false },
+      ],
+
+      // Import
+      'import-x/order': [
+        'error',
+        {
+          alphabetize: { order: 'asc', caseInsensitive: true },
+          'newlines-between': 'always',
+        },
+      ],
+      'import-x/no-duplicates': 'error',
+      'import-x/no-unresolved': 'error',
+      'import-x/first': 'error',
+      'import-x/newline-after-import': 'error',
+
+      strict: 'off',
+    },
+    settings: {
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({}),
+        createNodeResolver({
+          extensions: ['.js', '.mjs', '.jsx', '.ts', '.tsx'],
+        }),
+      ],
     },
   },
+  unicorn.configs['flat/recommended'],
+  promise.configs['flat/recommended'],
   eslintConfigPrettier,
-]
+])

@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "Shared ESLint configuration for Nigel Nguyen projects",
   "type": "module",
-  "author": "Nigel Nguyen <nigel@nng.me>",
+  "author": "Nigel Nguyen <hello@nng.me>",
   "license": "MIT",
   "files": [
     "index.js",

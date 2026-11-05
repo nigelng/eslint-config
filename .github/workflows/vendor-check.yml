@@ -8,13 +8,13 @@ name: vendor-check
 on:
   pull_request:
     paths:
-      - ".agents/skills/**"
-      - ".github/workflows/vendor-check.yml"
+      - '.agents/skills/**'
+      - '.github/workflows/vendor-check.yml'
   push:
     branches: [main]
     paths:
-      - ".agents/skills/**"
-      - ".github/workflows/vendor-check.yml"
+      - '.agents/skills/**'
+      - '.github/workflows/vendor-check.yml'
 
 permissions:
   contents: read

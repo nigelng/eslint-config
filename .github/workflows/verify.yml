@@ -13,6 +13,10 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    # every yarn invocation reads .yarnrc.yml, so the GitHub Packages token
+    # must be set for all steps, not just install
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -22,8 +26,6 @@ jobs:
           scope: '@nigelng'
       - name: Install Deps
         run: yarn install --immutable
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Lint
         run: yarn lint
       - name: Check Formatting
